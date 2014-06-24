@@ -174,8 +174,7 @@ Ext.extend(xBug.panel.Profiler, MODx.Panel, {
             url = "?id=" + url;
         }
         var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
-
-		xBug.panel.bugFrame.el.dom.src = MODx.config.base_url +url+'&xbug=17b9f8cee523dc27e7ff3978c7e75139&clear_cache='+clear_cache;
+		xBug.panel.bugFrame.el.dom.src = MODx.config.base_url +url+'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache;
     }
 });
 

@@ -45,12 +45,28 @@ $menu->fromArray(array(
     'icon' => 'images/icons/plugin.gif',
     'menuindex' => 0,
     'params' => '',
-    'handler' => '',
+    'handler' => 'return false;',
 ),'',true,true);
 $menu->addOne($action);
+$vehicle = $builder->createVehicle($menu, array (
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => 'text',
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'Action' => array (
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
+        )
+    )
+));
+$builder->putVehicle($vehicle);
+unset($menu, $vehicle);
 
-$menu1= $modx->newObject('modMenu');
-$menu2->fromArray(array(
+
+$menu= $modx->newObject('modMenu');
+$menu->fromArray(array(
     'text' => 'xbug.profiler',
     'description' => 'xbug.profiler.menu_desc',
     'menuindex' => 1,
@@ -58,8 +74,26 @@ $menu2->fromArray(array(
     'handler' => '',
     'parent' => 'xbug.xbug'
 ),'',true,true);
-$menu2= $modx->newObject('modMenu');
-$menu2->fromArray(array(
+$menu->addOne($action);
+$vehicle = $builder->createVehicle($menu, array (
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => 'text',
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'Action' => array (
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
+        )
+    )
+));
+$builder->putVehicle($vehicle);
+unset($menu, $vehicle);
+
+
+$menu= $modx->newObject('modMenu');
+$menu->fromArray(array(
     'text' => 'xbug.xbug_query',
     'description' => 'xbug.xbug_query_desc',
     'menuindex' => 0,
@@ -67,10 +101,21 @@ $menu2->fromArray(array(
     'handler' => '',
     'parent' => 'xbug.xbug'
 ),'',true,true);
-$menu->addMany(array(
-    $menu1,
-    $menu2
+$menu->addOne($action);
+$vehicle = $builder->createVehicle($menu, array (
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => 'text',
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'Action' => array (
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
+        )
+    )
 ));
-unset($action);
+$builder->putVehicle($vehicle);
+unset($menu, $vehicle);
 
 return $menu;

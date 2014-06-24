@@ -6,5 +6,4 @@
         <field key="query_time" dbtype="timestamp" phptype="timestamp" null="false" />
         <alias key="time" field="query_time" />
     </object>
-    <object class="xBugObject" extends="xPDOObject" />
 </model>
