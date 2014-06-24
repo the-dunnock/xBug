@@ -1,0 +1,5 @@
+Changelog for xBug.
+
+xBug 1.0.0
+==============
+- Initial release.

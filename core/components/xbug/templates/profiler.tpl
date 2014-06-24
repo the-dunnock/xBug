@@ -1,0 +1,1 @@
+<div id="xbug-panel-profiler-div"></div>
