@@ -1,0 +1,8 @@
+/* Enable scrollbars easily */
+#xbug-sql-query .x-panel-body, #xbug-south .x-panel-body-noheader, #xbug-south .x-panel-body-noheader .x-grid3-viewport {
+    overflow: auto !important;
+}
+
+#xbug-center .x-panel-bbar .x-toolbar-left > table { width: 100%; }
+
+#xbug-panel-index-div + .x-panel-bwrap .x-border-layout-ct { background : transparent; }
