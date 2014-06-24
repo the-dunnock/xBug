@@ -25,17 +25,14 @@
  * @package xbug
  * @subpackage build
  */
-$snippets = array();
 
-$snippets[0]= $modx->newObject('modSnippet');
-$snippets[0]->fromArray(array(
+$plugins[0]= $modx->newObject('modPlugin');
+$plugins[0]->fromArray(array(
     'id' => 0,
-    'name' => 'xBug',
-    'description' => 'Displays Items.',
-    'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/snippet.xbug.php'),
+    'name' => 'xBugEvents',
+    'description' => 'Used by xBugger page profiler. Do not enable this plugin.',
+    'plugincode' => getSnippetContent($sources['plugins'].'xBugEvents.plugin.php'),
+    'category' => 0
 ),'',true,true);
-$properties = include $sources['build'].'properties/properties.xbug.php';
-$snippets[0]->setProperties($properties);
-unset($properties);
 
-return $snippets;
+return $plugins;

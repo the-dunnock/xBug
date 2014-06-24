@@ -16,17 +16,9 @@ class XbugProfile extends modProcessor {
     }
 	
 	function outputArray($results, $count, $success) {
-		/*$queries = $results['xbugProfile'];
-		unset($results['xBugProfile']);
-		reset($results);
-		$out = array(
-			'profiles' => $queries,
-			'parser' => $results
-		);*/
 		$results['total'] = $count;
 		$results['success'] = true;
 		return $this->modx->toJSON($results);
-		//return '{"total":"'.$count.'",'. $this->modx->toJSON($results).', "success":'.print_r($success, true).'}';		
 	}
 }
 

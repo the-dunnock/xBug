@@ -39,7 +39,7 @@ class xBug {
             'processorsPath' => $corePath.'processors/',
             'templatesPath' => $corePath.'templates/',
         ),$config);
-		if (isset($_GET['xbug']) && $_GET['xbug'] == $modx->getOption('xbug_auth_key')) {
+		if (isset($_GET['xbug']) && $_GET['xbug'] == $modx->getOption('xbug.xbug_auth_key')) {
 			$this->loadProfiler();
 			$this->profiler->forceParser();
 			$this->profiler->enablePlugins();
@@ -48,7 +48,7 @@ class xBug {
             }
 
 		}
-        //$this->modx->addPackage('xbug',$this->config['modelPath'], 'xbug_');
+        $this->modx->addPackage('xbug',$this->config['modelPath'], 'xbug_');
         //$this->modx->lexicon->load('xbug:default');
 
     }

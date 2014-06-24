@@ -1,13 +1,13 @@
 <?php
 
-$_lang['xbug.xbug'] = 'xBug';
-$_lang['xbug.menu_desc'] = 'xBug Query and Page Profiler Tools.';
+$_lang['xbug.xbug'] = 'xBugger';
+$_lang['xbug.menu_desc'] = 'xBugger Query and Page Profiler Tools.';
 
-$_lang['xbug.xbug_query'] = 'xBug Query Debugger.';
+$_lang['xbug.xbug_query'] = 'xBugger Query Debugger.';
 $_lang['xbug.xbug_query_desc'] = 'xBug xPDOCriteria Debugging Utility.';
 
-$_lang['xbug.description'] = 'xBug helper utility to test xPDOQuery objects.';
-$_lang['xbug.error_code'] = 'xBug error code : ';
+$_lang['xbug.description'] = 'xBugger helper utility to test xPDOQuery objects.';
+$_lang['xbug.error_code'] = 'xBugger error code : ';
 $_lang['xbug.error_info'] = 'Error info: ';
 $_lang['xbug.results'] = 'Results';
 $_lang['xbug.explain'] = 'Explain';
