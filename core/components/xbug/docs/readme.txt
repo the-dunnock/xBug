@@ -1,11 +1,11 @@
 --------------------
 xBug
 --------------------
-Version: 1.0.0
-Author: John Doe <john@doe.com>
+Version: 0.6.0
+Author: Rautiainen the_dunnock@outlook.com @the_dunnock
 --------------------
 
 A basic Extra for MODx Revolution.
 
 Feel free to suggest ideas/improvements/bugs on GitHub:
-http://github.com/username/xBug/issues
+http://github.com/the-dunnock/xBugger/issues
