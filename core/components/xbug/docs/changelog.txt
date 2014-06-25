@@ -1,5 +1,11 @@
 Changelog for xBug.
 
-xBug 1.0.0
+xBug 0.7.0
+==============
+- Added helper text from EXPLAIN PLAN select_type, type, AND Extra columns
+- Added row pop up for easier view for results
+- SQL code view always visible
+
+xBug 0.6.0
 ==============
 - Initial release.
