@@ -122,7 +122,12 @@ xBug.panel.Profiler = function(config) {
 				name : 'resource',
 				width : 400,
                 id : 'url',
-                description : 'Resource ID or URL from site without domain'
+                description : 'Resource ID or URL from site without domain',
+                listeners : {
+                    beforedrop : function(object) {
+                        console.log(object);
+                    }
+                }
 			},{
                 xtype: 'label'
                 ,forId: 'url'
