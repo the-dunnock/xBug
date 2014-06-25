@@ -15,7 +15,11 @@ class xBug {
     private $_cache = null;
     private $xBugLog = null;
     private $profiler = null;
-    
+
+    /**
+     * @param modX $modx
+     * @param array $config
+     */
     function __construct(modX &$modx, array $config = array()) {
         $this->modx =& $modx;
 

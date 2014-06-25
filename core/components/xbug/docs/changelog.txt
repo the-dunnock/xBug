@@ -1,10 +1,19 @@
 Changelog for xBug.
 
+xBug 0.7.2
+==============
+- Minor fix to plugin
+
+xBug 0.7.1
+==============
+- Minor fix to javascript url request path
+
 xBug 0.7.0
 ==============
 - Added helper text from EXPLAIN PLAN select_type, type, AND Extra columns
 - Added row pop up for easier view for results
 - SQL code view always visible
+- Drag and Drop to URL field enabled from resource tree
 
 xBug 0.6.0
 ==============

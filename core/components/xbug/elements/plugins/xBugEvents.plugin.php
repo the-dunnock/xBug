@@ -1,5 +1,5 @@
 <?php
-if ($modx->context->key == 'web') {
+if ($modx->context->key != 'mgr') {
     if ($modx->event->name == 'OnInitCulture') {
 
     }
