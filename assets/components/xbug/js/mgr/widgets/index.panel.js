@@ -18,11 +18,6 @@ xBug.stores.Results =  new Ext.data.JsonStore({
             xBug.grid.ResultsModel.setConfig(cols);
             xBug.grid.Results.reconfigure(s, xBug.grid.Results.getColumnModel());
             xBug.stores.Explain.loadData(s.reader.jsonData.explain);
-            /*Ext.getDom('xbug-query-time-value').innerHTML = s.reader.jsonData.timers.query + "ms";
-            Ext.getDom('xbug-collection-time-value').innerHTML = s.reader.jsonData.timers.collector + "ms";
-            Ext.getDom('xbug-memory-usage-value').innerHTML = s.reader.jsonData.memory.total_collector + "Mb";
-			Ext.getDom('xbug-row-count-value').innerHTML = s.reader.jsonData.total;
-			*/
 			
 			xBug.stores.Stats.loadData({stats_rows: [{total : s.reader.jsonData.total, 
 				query : s.reader.jsonData.timers.query,
@@ -69,7 +64,38 @@ xBug.grid.Results = new Ext.grid.GridPanel ({
     height : 100,
     frame: false,
     title: _('xbug.results'),
-    id : 'xbug-results-grid'
+    id : 'xbug-results-grid',
+    listeners : {
+        'cellclick' : function(grid, rowIndex, columnIndex, e){
+            // Get the Record
+            var record = grid.getStore().getAt(rowIndex);
+            for (var key in record.data) {
+                var obj = record.data[key];
+                obj = obj.replace(/&lt;/gi, '<');
+                obj = obj.replace(/&gt;/gi, '>');
+                console.log(obj);
+                record.data[key] = obj;
+            }
+            var resultGrid = new Ext.grid.PropertyGrid({
+                title: 'Properties Grid',
+                autoHeight: true,
+                source: record.data,
+                region : 'center'
+            });
+
+            var resultWindow = new Ext.Window({
+                title: 'Row Data',
+                closable:true,
+                width:600,
+                height:400,
+                plain:true,
+                layout: 'border',
+                items: [resultGrid],
+                autoScroll : true
+            });
+            resultWindow.show();
+        }
+    }
 });
 
 xBug.stores.Explain =  new Ext.data.JsonStore({
@@ -101,7 +127,7 @@ xBug.grid.ExplainModel = new Ext.grid.ColumnModel({
         menuDisabled: true,
         resizable : true
     },
-    defaultSortable : false,
+    defaultSortable : false
 });
 
 xBug.grid.Explain = new Ext.grid.GridPanel ({
@@ -117,6 +143,21 @@ xBug.grid.Explain = new Ext.grid.GridPanel ({
     id : 'xbug-explain-grid',
     listeners : {
         'reconfigure' : function(g, s, c) {
+        },
+        'cellclick' : function(grid, rowIndex, columnIndex, e){
+            // Get the Record
+            var record = grid.getStore().getAt(rowIndex);
+            // Get field name
+            var fieldName = grid.getColumnModel().getDataIndex(columnIndex);
+            var data = record.get(fieldName);
+
+            Ext.MessageBox.show({
+                title: "Field " + fieldName + " information",
+                msg: data,
+                width:600,
+                buttons: Ext.MessageBox.OK,
+                animEl: 'mb3'
+            });
         }
     }
 });
@@ -243,8 +284,6 @@ xBug.panel.Index = function(config) {
                 id : 'xbug-east',
                 border : false,
                 autoScroll : true,
-                collapsible: true,
-                collapseMode: 'mini',
                 useSplitTips: true,
                 minWidth : 200,
                 maxWidth: 700,
@@ -264,12 +303,6 @@ xBug.panel.Index = function(config) {
                 }]
             }]
         }], listeners : {
-            /*'render' : function() { Disabled tree hiding
-                var tree = Ext.getCmp('modx-leftbar-tabs');
-                if (tree.collapsed !== true) {
-                    tree.collapse();
-                }
-            }*/
         }
     });
     xBug.panel.Index.superclass.constructor.call(this, config);
@@ -323,3 +356,10 @@ xBug.combo.MethodCombo = function(config) {
 Ext.extend(xBug.combo.MethodCombo,MODx.combo.ComboBox);
 Ext.reg('query-method-combo', xBug.combo.MethodCombo);
 
+Ext.QuickTips.init();
+Ext.apply(Ext.QuickTips.getQuickTip(), {
+    maxWidth: 200,
+    minWidth: 100,
+    showDelay: 50,      // Show 50ms after entering target
+    trackMouse: true
+});

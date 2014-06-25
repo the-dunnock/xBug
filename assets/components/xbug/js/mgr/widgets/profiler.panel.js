@@ -1,3 +1,7 @@
+
+// utilize custom extension for Group Summary
+var summary = new Ext.ux.grid.GroupSummary();
+
 xBug.stores.Parser =  new Ext.data.GroupingStore({
     autoDestroy: true,
     autoLoad: false,
@@ -14,7 +18,6 @@ xBug.stores.Parser =  new Ext.data.GroupingStore({
 	groupField : 'tag',
     listeners : {
 		'load' : function(store, records, opts) {
-			console.log(store.reader.jsonData.profiles);
 			xBug.stores.Profile.loadData({
 				total : 1,
 				success : true,
@@ -34,16 +37,20 @@ xBug.grid.Parser  = new Ext.grid.GridPanel ({
         forceFit: true,
 		startCollapsed : true
     }),
-	columns : [{header : 'Tag', dataIndex : 'tag', width : 150, fixed: true, align : 'right'},
+	columns : [{header : 'Tag', dataIndex : 'tag', width : 150, fixed: true, align : 'right', summaryType: 'count',
+        summaryRenderer: function(v, params, data){
+            return ((v === 0 || v > 1) ? '(' + v +' Tags processed)' : '(1 Tag processed)');
+        },},
 		{header : 'outerTag', dataIndex : 'outerTag'},
-		{header : 'Processing Time (S)', dataIndex : 'processTime', width: 150, fixed: true, align : 'right'},
+		{header : 'Processing Time (S)', dataIndex : 'processTime', width: 150, fixed: true, align : 'right',summaryType: 'sum'},
 		{header : 'cacheable', dataIndex : 'cacheable', width: 100, fixed: true, align : 'right'}],
     autoWidth: true,
     height : 400,
     frame: false,
     title: 'Parser Data',
     id : 'xbug-parser-grid',
-	margins : { top: 5, right : 0, bottom : 5, left : 0}
+	margins : { top: 5, right : 0, bottom : 5, left : 0},
+    plugins : summary
 });
 
 xBug.stores.Profile =  new Ext.data.JsonStore({
@@ -68,7 +75,8 @@ xBug.grid.Profile  = new Ext.grid.GridPanel ({
 	margins : { top: 5, right : 0, bottom : 5, left : 0},
 	viewConfig : {
 		forceFit : true	
-	}
+	},
+
 });
 xBug.panel.bugFrame = new Ext.BoxComponent({
 	autoEl : {
@@ -174,7 +182,7 @@ Ext.extend(xBug.panel.Profiler, MODx.Panel, {
             url = "?id=" + url;
         }
         var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
-		xBug.panel.bugFrame.el.dom.src = MODx.config.base_url +url+'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache;
+		xBug.panel.bugFrame.el.dom.src = MODx.config.base_url +url+'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
     }
 });
 

@@ -120,6 +120,7 @@ class XbugProcessor extends modProcessor {
     }
 
     function outputArray($results, $count, $success = false) {
+        $this->modx->lexicon->load('xbug:mysql');
         $fields = array();
         $expFields = array();
         $columnMeta = array();
@@ -142,7 +143,42 @@ class XbugProcessor extends modProcessor {
                 'dataIndex' => $col,
                 'sortable' => false);
         }
-        
+        foreach($results['explain'] as &$row) {
+            foreach ($row as $key => &$val) {
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, $key);
+                if ($key == 'Extra') {
+                    $vars = explode(";", $val);
+                    foreach ($vars as &$var) {
+                        $original = $var;
+                        $var = str_replace(array(" ", ",", "-"), array("_"), trim($var));
+                        $var = "<b>{$original}</b><br>" .$this->modx->lexicon('xbug.mysql.extra.'.strtolower($var))."<br>";
+                    }
+                    $val = implode("", $vars);
+                } else if ($key == 'select_type') {
+                    $vars = explode(";", $val);
+                    foreach ($vars as &$var) {
+                        $original = $var;
+                        $var = str_replace(array(" ", ",", "-"), array("_"), trim($var));
+                        $var = "<b>{$original}</b><br>" .$this->modx->lexicon('xbug.mysql.select_type.'.strtolower($var))."<br>";
+                    }
+                    $val = implode("", $vars);
+                } else if ($key == 'type') {
+                    $vars = explode(";", $val);
+                    foreach ($vars as &$var) {
+                        $original = $var;
+                        $var = str_replace(array(" ", ",", "-"), array("_"), trim($var));
+                        $var = "<b>{$original}</b><br>" .$this->modx->lexicon('xbug.mysql.type.'.strtolower($var))."<br>";
+                    }
+                    $val = implode("", $vars);
+                }
+            }
+        }
+        // Escape HTML
+        foreach ($results['collection'] as &$row) {
+            foreach ($row as $k => $v) {
+                $row[$k] = htmlentities($v);
+            }
+        }
         $explainMeta = '{"metaData" : {
             "id" : "",
             "root" : "expRows",
@@ -162,7 +198,7 @@ class XbugProcessor extends modProcessor {
             "successProperty": "success",
             "fields" : ' . $this->modx->toJSON($fields) .'
         },
-        "rows" : ' . $this->modx->toJSON($results['collection']) . ',
+        "rows" : ' . json_encode($results['collection']) . ',
         "success" : ' . $success .',
         "total" : ' . $count .',
         "columnMeta" : ' . $this->modx->toJSON($columnMeta) . ', 

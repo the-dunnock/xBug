@@ -31,6 +31,7 @@ class xBugProfilerManagerController extends xBugManagerController {
     }
     public function getPageTitle() { return $this->modx->lexicon('xbug.profiler'); }
     public function loadCustomCssJs() {
+        $this->addLastJavascript($this->xbug->config['jsUrl'].'mgr/utils/GroupSummary.js');
         $this->addLastJavascript($this->xbug->config['jsUrl'].'mgr/widgets/profiler.panel.js');
         $this->addLastJavascript($this->xbug->config['jsUrl'].'mgr/sections/profiler.js');
         $this->addHtml('<script type="text/javascript">
