@@ -58,7 +58,7 @@ xBug.stores.Profile =  new Ext.data.JsonStore({
     autoLoad: false,
     url : null,
 	fields : [{name : 'id'}, {name : 'duration'}, {name : 'sql'}],
-	root : 'profiles',
+	root : 'profiles'
 });
 
 
@@ -75,8 +75,7 @@ xBug.grid.Profile  = new Ext.grid.GridPanel ({
 	margins : { top: 5, right : 0, bottom : 5, left : 0},
 	viewConfig : {
 		forceFit : true	
-	},
-
+	}
 });
 xBug.panel.bugFrame = new Ext.BoxComponent({
 	autoEl : {
@@ -108,10 +107,10 @@ xBug.panel.Profiler = function(config) {
 		title : '<h2>' + _('xbug.profiler') + '</h2>' + '<p>' + _('xbug.profiler.desc') + '</p>',
         frame : false,
         border: false,
+        xtype : 'modx-formpanel ',
 		renderTo : 'xbug-panel-profiler-div',
 		items : [{
 			id : 'xbug-profiler-form',
-			xtype : 'form',
 			padding : 10,
 			border : false,
 			frame : true,
@@ -122,16 +121,11 @@ xBug.panel.Profiler = function(config) {
 				name : 'resource',
 				width : 400,
                 id : 'url',
-                description : 'Resource ID or URL from site without domain',
-                listeners : {
-                    beforedrop : function(object) {
-                        console.log(object);
-                    }
-                }
+                description : 'Resource ID or URL from site without domain'
 			},{
                 xtype: 'label'
                 ,forId: 'url'
-                ,html: 'Resource ID or URL from site without domain'
+                ,html: '<p>Resource ID or URL from site without domain</p>'
                 ,cls: 'desc-under'
 
             },{
@@ -144,7 +138,7 @@ xBug.panel.Profiler = function(config) {
 			},{
                 xtype: 'label'
                 ,forId: 'parameters'
-                ,html: 'Url parameters in format &somevar=1&othervar=2'
+                ,html: '<p>Url parameters in format &somevar=1&othervar=2</p>'
                 ,cls: 'desc-under'
 
             },{
@@ -176,7 +170,7 @@ xBug.panel.Profiler = function(config) {
 }
 
 
-Ext.extend(xBug.panel.Profiler, MODx.Panel, {
+Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
     profilePage : function(b, e) {
 		if (!xBug.panel.bugFrame.rendered) {
 			xBug.panel.bugFrame.render();

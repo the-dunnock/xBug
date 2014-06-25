@@ -6,3 +6,5 @@
 #xbug-center .x-panel-bbar .x-toolbar-left > table { width: 100%; }
 
 #xbug-panel-index-div + .x-panel-bwrap .x-border-layout-ct { background : transparent; }
+
+#xbug-profiler-form + div .x-grid3-summary-row .x-grid3-cell-inner{ font-weight: bold; color: #444; }
