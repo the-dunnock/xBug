@@ -7,7 +7,6 @@ xBug.page.Profiler = function(config) {
     Ext.applyIf(config,{
         components: [{
             xtype: 'xbug-panel-profiler'
-            ,renderTo: 'xbug-panel-profiler-div'
         }]
     }); 
     xBug.page.Profiler.superclass.constructor.call(this,config);

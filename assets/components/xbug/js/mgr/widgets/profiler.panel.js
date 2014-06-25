@@ -107,6 +107,7 @@ xBug.panel.Profiler = function(config) {
 		title : '<h2>' + _('xbug.profiler') + '</h2>' + '<p>' + _('xbug.profiler.desc') + '</p>',
         frame : false,
         border: false,
+        allowDrop: true,
         xtype : 'modx-formpanel ',
 		renderTo : 'xbug-panel-profiler-div',
 		items : [{
@@ -116,16 +117,33 @@ xBug.panel.Profiler = function(config) {
 			frame : true,
 			autoWidth : true,
 			items : [{
+                xtype: 'label'
+                ,forId: 'url'
+                ,html: '<p><b>URL to be tested</b></p>'
+                ,cls: 'desc-under'
+
+            },{
 				xtype : 'textfield',
 				fieldLabel : 'URL or resource id',
 				name : 'resource',
 				width : 400,
                 id : 'url',
-                description : 'Resource ID or URL from site without domain'
+                description : 'Resource ID or URL from site without domain',
+                listeners : {
+                    change : function(evt, newValue, oldValue) {
+                        console.log(evt);
+                    }
+                }
 			},{
                 xtype: 'label'
                 ,forId: 'url'
                 ,html: '<p>Resource ID or URL from site without domain</p>'
+                ,cls: 'desc-under'
+
+            },{
+                xtype: 'label'
+                ,forId: 'parameters'
+                ,html: '<p><b>Url Parameters</b></p>'
                 ,cls: 'desc-under'
 
             },{
@@ -164,24 +182,60 @@ xBug.panel.Profiler = function(config) {
 			height : 800,
 			items : [xBug.grid.Parser.show(),
 				xBug.grid.Profile.show()]
-		}]
+		}],
+        listeners : {
+            added : function(evt) {
+                this.onReady(evt);
+            }
+        }
 	});
+
     xBug.panel.Profiler.superclass.constructor.call(this, config);
 }
 
 
 Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
+    onReady: function(r) {
+        this.isReady = true;
+        this.loadDropZones();
+    },
+    loadDropZones: function() {
+        var flds = this.getForm().items;
+        flds.each(function(fld) {
+            if (fld.isFormField && (
+                fld.isXType('textfield') || fld.isXType('textarea')
+                ) && !fld.isXType('combo')) {
+                var el = fld.getEl();
+                if (el) {
+                    new MODx.load({
+                        xtype: 'modx-treedrop'
+                        ,target: fld
+                        ,targetEl: el.dom
+                    });
+                }
+            }
+        });
+    },
     profilePage : function(b, e) {
 		if (!xBug.panel.bugFrame.rendered) {
 			xBug.panel.bugFrame.render();
 		}
         var params = Ext.getCmp('parameters').getValue();
         var url = Ext.getCmp('url').getValue();
-        if (url % 1 === 0) { // Quite dummy check
-            url = "?id=" + url;
+        var pat = new RegExp(/\[\[\~[0-9]*\]\]/);
+        if (pat.test(url)) {
+            var match = url.match(/\d+/);
+            url = "?id=" + parseInt(match[0]) +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+        } else if (url % 1 === 0) { // Quite dummy check
+            url = "?id=" + url +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+        } else {
+            url = url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
         }
         var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
-		xBug.panel.bugFrame.el.dom.src = MODx.config.base_url +url+'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+		xBug.panel.bugFrame.el.dom.src = MODx.config.base_url + url;
+    },
+    onDragDrop : function (e, id){
+        console.log(e);
     }
 });
 
