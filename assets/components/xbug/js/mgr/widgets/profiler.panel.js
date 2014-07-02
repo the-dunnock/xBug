@@ -6,26 +6,26 @@ xBug.stores.Parser =  new Ext.data.GroupingStore({
     autoDestroy: true,
     autoLoad: false,
     url : xBug.config.connector_url,
-	baseParams : {
-		action : 'mgr/xbug/profile'
-	},
-	reader : new Ext.data.JsonReader({
-		successProperty : 'success',
-		totalProperty : 'total',
-		root : 'parser',
-		fields : [{name : 'tag'}, {name : 'outerTag'}, {name : 'processTime'}, {name : 'cacheable'}],
-	}),
-	groupField : 'tag',
+    baseParams : {
+        action : 'mgr/xbug/profile'
+    },
+    reader : new Ext.data.JsonReader({
+        successProperty : 'success',
+        totalProperty : 'total',
+        root : 'parser',
+        fields : [{name : 'tag'}, {name : 'outerTag'}, {name : 'processTime'}, {name : 'cacheable'}],
+    }),
+    groupField : 'tag',
     listeners : {
-		'load' : function(store, records, opts) {
-			xBug.stores.Profile.loadData({
-				total : 1,
-				success : true,
-				profiles : store.reader.jsonData.profiles
-			});
-		},
+        'load' : function(store, records, opts) {
+            xBug.stores.Profile.loadData({
+                total : 1,
+                success : true,
+                profiles : store.reader.jsonData.profiles
+            });
+        },
         'exception' : function(misc) {
-			console.log('exception');
+            console.log('exception');
 
         }
     }
@@ -35,21 +35,21 @@ xBug.grid.Parser  = new Ext.grid.GridPanel ({
     store: xBug.stores.Parser,
     view: new Ext.grid.GroupingView({
         forceFit: true,
-		startCollapsed : true
+        startCollapsed : true
     }),
-	columns : [{header : 'Tag', dataIndex : 'tag', width : 150, fixed: true, align : 'right', summaryType: 'count',
+    columns : [{header: 'Tag', dataIndex: 'tag', width: 150, fixed: true, align: 'right', sortable: true, summaryType: 'count',
         summaryRenderer: function(v, params, data){
             return ((v === 0 || v > 1) ? '(' + v +' Tags processed)' : '(1 Tag processed)');
         },},
-		{header : 'outerTag', dataIndex : 'outerTag'},
-		{header : 'Processing Time (S)', dataIndex : 'processTime', width: 150, fixed: true, align : 'right',summaryType: 'sum'},
-		{header : 'cacheable', dataIndex : 'cacheable', width: 100, fixed: true, align : 'right'}],
+        {header: 'outerTag', dataIndex: 'outerTag'},
+        {header: 'Processing Time (S)', dataIndex : 'processTime', width: 150, fixed: true, align : 'right', sortable: true, summaryType: 'sum'},
+        {header: 'cacheable', dataIndex: 'cacheable', width: 100, fixed: true, align: 'right', sortable: true}],
     autoWidth: true,
     height : 400,
     frame: false,
     title: 'Parser Data',
     id : 'xbug-parser-grid',
-	margins : { top: 5, right : 0, bottom : 5, left : 0},
+    margins : { top: 5, right : 0, bottom : 5, left : 0},
     plugins : summary
 });
 
@@ -57,39 +57,39 @@ xBug.stores.Profile =  new Ext.data.JsonStore({
     autoDestroy: true,
     autoLoad: false,
     url : null,
-	fields : [{name : 'id'}, {name : 'duration'}, {name : 'sql'}],
-	root : 'profiles'
+    fields : [{name : 'id'}, {name : 'duration'}, {name : 'sql'}],
+    root : 'profiles'
 });
 
 
 xBug.grid.Profile  = new Ext.grid.GridPanel ({
     store: xBug.stores.Profile,
-	columns : [{header : 'ID', dataIndex : 'id', width : 50, fixed : true, align : 'right'},
-		{header : 'Duration (S)', dataIndex : 'duration', width: 100, fixed : true, align : 'right'},
-		{header : 'Query', dataIndex : 'sql'}],
+    columns : [{header : 'ID', dataIndex : 'id', width : 50, fixed : true, align : 'right'},
+        {header : 'Duration (S)', dataIndex : 'duration', width: 100, fixed : true, align : 'right'},
+        {header : 'Query', dataIndex : 'sql'}],
     autoWidth: true,
     height : 400,
     frame: false,
     title: 'SQL Profiles',
     id : 'xbug-profile-grid',
-	margins : { top: 5, right : 0, bottom : 5, left : 0},
-	viewConfig : {
-		forceFit : true	
-	}
+    margins : { top: 5, right : 0, bottom : 5, left : 0},
+    viewConfig : {
+        forceFit : true 
+    }
 });
 xBug.panel.bugFrame = new Ext.BoxComponent({
-	autoEl : {
-		tag : 'iframe',
-		frameborder : 0,
-		src : '',
-		style : 'display:none;',
-		id : 'xbug-profile-iframe'
-	},
-	id : 'xbug-profile-iframe',
-	listeners: {
+    autoEl : {
+        tag : 'iframe',
+        frameborder : 0,
+        src : '',
+        style : 'display:none;',
+        id : 'xbug-profile-iframe'
+    },
+    id : 'xbug-profile-iframe',
+    listeners: {
         afterrender: function () {
             this.getEl().on('load', function () {
-				xBug.stores.Parser.load();	
+                xBug.stores.Parser.load();  
             });
         }
     }
@@ -101,32 +101,32 @@ Ext.onReady(function() {
 xBug.panel.Profiler = function(config) {
     config = config || {};
     Ext.apply(config, {
-		id : 'xbug-profiler',
-		baseCls: 'xbug-formpanel',
-		cls: 'container',
-		title : '<h2>' + _('xbug.profiler') + '</h2>' + '<p>' + _('xbug.profiler.desc') + '</p>',
+        id : 'xbug-profiler',
+        baseCls: 'xbug-formpanel',
+        cls: 'container',
+        title : '<h2>' + _('xbug.profiler') + '</h2>' + '<p>' + _('xbug.profiler.desc') + '</p>',
         frame : false,
         border: false,
         allowDrop: true,
         xtype : 'modx-formpanel ',
-		renderTo : 'xbug-panel-profiler-div',
-		items : [{
-			id : 'xbug-profiler-form',
-			padding : 10,
-			border : false,
-			frame : true,
-			autoWidth : true,
-			items : [{
+        renderTo : 'xbug-panel-profiler-div',
+        items : [{
+            id : 'xbug-profiler-form',
+            padding : 10,
+            border : false,
+            frame : true,
+            autoWidth : true,
+            items : [{
                 xtype: 'label'
                 ,forId: 'url'
                 ,html: '<p><b>URL to be tested</b></p>'
                 ,cls: 'desc-under'
 
             },{
-				xtype : 'textfield',
-				fieldLabel : 'URL or resource id',
-				name : 'resource',
-				width : 400,
+                xtype : 'textfield',
+                fieldLabel : 'URL or resource id',
+                name : 'resource',
+                width : 400,
                 id : 'url',
                 description : 'Resource ID or URL from site without domain',
                 listeners : {
@@ -134,7 +134,7 @@ xBug.panel.Profiler = function(config) {
                         console.log(evt);
                     }
                 }
-			},{
+            },{
                 xtype: 'label'
                 ,forId: 'url'
                 ,html: '<p>Resource ID or URL from site without domain</p>'
@@ -147,13 +147,13 @@ xBug.panel.Profiler = function(config) {
                 ,cls: 'desc-under'
 
             },{
-				xtype : 'textfield',
-				fieldLabel : 'URL parameters',
-				name : 'url-params',
-				width : 400,
+                xtype : 'textfield',
+                fieldLabel : 'URL parameters',
+                name : 'url-params',
+                width : 400,
                 id : 'parameters',
                 description : 'Url parameters in format &somevar=1&othervar=2'
-			},{
+            },{
                 xtype: 'label'
                 ,forId: 'parameters'
                 ,html: '<p>Url parameters in format &somevar=1&othervar=2</p>'
@@ -176,25 +176,29 @@ xBug.panel.Profiler = function(config) {
                     handler : this.profilePage
                 }]
             }]
-		},{
-			xtype : 'panel',
-			autoHeight : true,
-			height : 800,
-			items : [xBug.grid.Parser.show(),
-				xBug.grid.Profile.show()]
-		}],
+        },{
+            xtype : 'panel',
+            autoHeight : true,
+            height : 800,
+            items : [xBug.grid.Parser.show(),
+                xBug.grid.Profile.show()]
+        }],
         listeners : {
             added : function(evt) {
                 this.onReady(evt);
             }
         }
-	});
+    });
 
     xBug.panel.Profiler.superclass.constructor.call(this, config);
 }
 
-
+var xBugUrl = null;
+function setXbugUrl(url) {
+    xBugUrl = url;
+}
 Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
+
     onReady: function(r) {
         this.isReady = true;
         this.loadDropZones();
@@ -217,22 +221,44 @@ Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
         });
     },
     profilePage : function(b, e) {
-		if (!xBug.panel.bugFrame.rendered) {
-			xBug.panel.bugFrame.render();
-		}
+        if (!xBug.panel.bugFrame.rendered) {
+            xBug.panel.bugFrame.render();
+        }
         var params = Ext.getCmp('parameters').getValue();
         var url = Ext.getCmp('url').getValue();
         var pat = new RegExp(/\[\[\~[0-9]*\]\]/);
-        if (pat.test(url)) {
-            var match = url.match(/\d+/);
-            url = "?id=" + parseInt(match[0]) +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
-        } else if (url % 1 === 0) { // Quite dummy check
-            url = "?id=" + url +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
-        } else {
-            url = url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
-        }
         var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
-		xBug.panel.bugFrame.el.dom.src = MODx.config.base_url + url;
+        var id = null;
+        if (url == '') {
+            this.url = '?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+        } else if (pat.test(url)) {
+            var match = url.match(/\d+/);
+            id = match[0];
+            xBugUrl = MODx.config.base_url+"?id=" + parseInt(match[0]) +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+        } else if (url % 1 === 0) { // Quite dummy check
+            id = url;
+            xBugUrl = MODx.config.base_url+"?id=" + url +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+        } else {
+            xBugUrl = MODx.config.base_url+url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+        }
+        if (MODx.config.friendly_urls == 1) {
+            Ext.Ajax.request({
+                url: xBug.config.connectorUrl+'?action=mgr/xbug/getfurl&id=' + id ,
+                success: function(response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    setXbugUrl(obj.url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params);
+                    xBug.panel.bugFrame.el.dom.src = xBugUrl;
+                },
+                failure: function(response, opts) {
+                    console.log('server-side failure with status code ' + response.status);
+                }
+            });
+
+        } else {
+            xBug.panel.bugFrame.el.dom.src = xBugUrl;
+        }
+
+
     },
     onDragDrop : function (e, id){
         console.log(e);
