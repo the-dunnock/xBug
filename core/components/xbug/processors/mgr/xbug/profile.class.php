@@ -12,10 +12,11 @@ class XbugProfile extends modProcessor {
     function process() {
 		$profiler = $this->xbug->loadProfiler();
 		$profiles = $profiler->readLog();
-		return $this->outputArray($profiles, 1, true);
+		return $this->outputArray($profiles);
     }
 	
-	function outputArray($results, $count, $success) {
+	function outputArray(array $results, $count = false) {
+		if ($count === false) { $count = count($array); }
 		$results['total'] = $count;
 		$results['success'] = true;
 		return $this->modx->toJSON($results);
