@@ -37,7 +37,7 @@ xBug.grid.Parser  = new Ext.grid.GridPanel ({
         forceFit: true,
         startCollapsed : true
     }),
-    columns : [{header: 'Tag', dataIndex: 'tag', width: 150, fixed: true, align: 'right', sortable: true, summaryType: 'count',
+    columns: [{header: 'Tag', dataIndex: 'tag', width: 150, fixed: true, align: 'right', sortable: true, summaryType: 'count',
         summaryRenderer: function(v, params, data){
             return ((v === 0 || v > 1) ? '(' + v +' Tags processed)' : '(1 Tag processed)');
         },},
@@ -45,12 +45,12 @@ xBug.grid.Parser  = new Ext.grid.GridPanel ({
         {header: 'Processing Time (S)', dataIndex : 'processTime', width: 150, fixed: true, align : 'right', sortable: true, summaryType: 'sum'},
         {header: 'cacheable', dataIndex: 'cacheable', width: 100, fixed: true, align: 'right', sortable: true}],
     autoWidth: true,
-    height : 400,
+    height: 400,
     frame: false,
     title: 'Parser Data',
-    id : 'xbug-parser-grid',
-    margins : { top: 5, right : 0, bottom : 5, left : 0},
-    plugins : summary
+    id: 'xbug-parser-grid',
+    margins: { top: 5, right : 0, bottom : 5, left : 0},
+    plugins: summary
 });
 
 xBug.stores.Profile =  new Ext.data.JsonStore({
@@ -193,12 +193,8 @@ xBug.panel.Profiler = function(config) {
     xBug.panel.Profiler.superclass.constructor.call(this, config);
 }
 
-var xBugUrl = null;
-function setXbugUrl(url) {
-    xBugUrl = url;
-}
-Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
 
+Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
     onReady: function(r) {
         this.isReady = true;
         this.loadDropZones();
@@ -227,38 +223,16 @@ Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
         var params = Ext.getCmp('parameters').getValue();
         var url = Ext.getCmp('url').getValue();
         var pat = new RegExp(/\[\[\~[0-9]*\]\]/);
-        var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
-        var id = null;
-        if (url == '') {
-            this.url = '?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
-        } else if (pat.test(url)) {
+        if (pat.test(url)) {
             var match = url.match(/\d+/);
-            id = match[0];
-            xBugUrl = MODx.config.base_url+"?id=" + parseInt(match[0]) +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+            url = "?id=" + parseInt(match[0]) +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
         } else if (url % 1 === 0) { // Quite dummy check
-            id = url;
-            xBugUrl = MODx.config.base_url+"?id=" + url +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+            url = "?id=" + url +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
         } else {
-            xBugUrl = MODx.config.base_url+url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+            url = url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
         }
-        if (MODx.config.friendly_urls == 1) {
-            Ext.Ajax.request({
-                url: xBug.config.connectorUrl+'?action=mgr/xbug/getfurl&id=' + id ,
-                success: function(response, opts) {
-                    var obj = Ext.decode(response.responseText);
-                    setXbugUrl(obj.url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params);
-                    xBug.panel.bugFrame.el.dom.src = xBugUrl;
-                },
-                failure: function(response, opts) {
-                    console.log('server-side failure with status code ' + response.status);
-                }
-            });
-
-        } else {
-            xBug.panel.bugFrame.el.dom.src = xBugUrl;
-        }
-
-
+        var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
+        xBug.panel.bugFrame.el.dom.src = MODx.config.base_url + url;
     },
     onDragDrop : function (e, id){
         console.log(e);
