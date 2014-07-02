@@ -35,22 +35,22 @@ xBug.grid.Parser  = new Ext.grid.GridPanel ({
     store: xBug.stores.Parser,
     view: new Ext.grid.GroupingView({
         forceFit: true,
-		startCollapsed : true
+        startCollapsed : true
     }),
-	columns : [{header : 'Tag', dataIndex : 'tag', width : 150, fixed: true, align : 'right', summaryType: 'count',
+    columns: [{header: 'Tag', dataIndex: 'tag', width: 150, fixed: true, align: 'right', sortable: true, summaryType: 'count',
         summaryRenderer: function(v, params, data){
             return ((v === 0 || v > 1) ? '(' + v +' Tags processed)' : '(1 Tag processed)');
         },},
-		{header : 'outerTag', dataIndex : 'outerTag'},
-		{header : 'Processing Time (S)', dataIndex : 'processTime', width: 150, fixed: true, align : 'right',summaryType: 'sum'},
-		{header : 'cacheable', dataIndex : 'cacheable', width: 100, fixed: true, align : 'right'}],
+        {header: 'outerTag', dataIndex: 'outerTag'},
+        {header: 'Processing Time (S)', dataIndex : 'processTime', width: 150, fixed: true, align : 'right', sortable: true, summaryType: 'sum'},
+        {header: 'cacheable', dataIndex: 'cacheable', width: 100, fixed: true, align: 'right', sortable: true}],
     autoWidth: true,
-    height : 400,
+    height: 400,
     frame: false,
     title: 'Parser Data',
-    id : 'xbug-parser-grid',
-	margins : { top: 5, right : 0, bottom : 5, left : 0},
-    plugins : summary
+    id: 'xbug-parser-grid',
+    margins: { top: 5, right : 0, bottom : 5, left : 0},
+    plugins: summary
 });
 
 xBug.stores.Profile =  new Ext.data.JsonStore({
@@ -64,18 +64,18 @@ xBug.stores.Profile =  new Ext.data.JsonStore({
 
 xBug.grid.Profile  = new Ext.grid.GridPanel ({
     store: xBug.stores.Profile,
-	columns : [{header : 'ID', dataIndex : 'id', width : 50, fixed : true, align : 'right'},
-		{header : 'Duration (S)', dataIndex : 'duration', width: 100, fixed : true, align : 'right'},
-		{header : 'Query', dataIndex : 'sql'}],
+    columns: [{header: 'ID', dataIndex: 'id', width: 50, fixed: true, align: 'right'},
+        {header: 'Duration (S)', dataIndex: 'duration', width: 100, fixed: true, align: 'right', sortable: true},
+        {header: 'Query', dataIndex: 'sql'}],
     autoWidth: true,
-    height : 400,
+    height: 400,
     frame: false,
     title: 'SQL Profiles',
-    id : 'xbug-profile-grid',
-	margins : { top: 5, right : 0, bottom : 5, left : 0},
-	viewConfig : {
-		forceFit : true	
-	}
+    id: 'xbug-profile-grid',
+    margins: { top: 5, right: 0, bottom: 5, left: 0},
+    viewConfig: {
+        forceFit: true  
+    }
 });
 xBug.panel.bugFrame = new Ext.BoxComponent({
 	autoEl : {
