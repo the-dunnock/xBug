@@ -7,6 +7,7 @@ $_lang['xbug.xbug_query'] = 'xBugger Query Debugger.';
 $_lang['xbug.xbug_query_desc'] = 'xBug xPDOCriteria Debugging Utility.';
 
 $_lang['xbug.description'] = 'xBugger helper utility to test xPDOQuery objects.';
+$_lang['xbug.xbugquery'] = 'xBugger Query Debugger and Profiler';
 $_lang['xbug.error_code'] = 'xBugger error code : ';
 $_lang['xbug.error_info'] = 'Error info: ';
 $_lang['xbug.results'] = 'Results';

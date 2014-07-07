@@ -16,7 +16,7 @@ class XbugProfile extends modProcessor {
     }
 	
 	function outputArray(array $results, $count = false) {
-		if ($count === false) { $count = count($array); }
+		if ($count === false) { $count = count($results); }
 		$results['total'] = $count;
 		$results['success'] = true;
 		return $this->modx->toJSON($results);

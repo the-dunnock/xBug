@@ -13,7 +13,7 @@ xBug.stores.Parser =  new Ext.data.GroupingStore({
 		successProperty : 'success',
 		totalProperty : 'total',
 		root : 'parser',
-		fields : [{name : 'tag'}, {name : 'outerTag'}, {name : 'processTime'}, {name : 'cacheable'}],
+		fields : [{name : 'tag'}, {name : 'outerTag'}, {name : 'processTime'}, {name : 'cacheable'}]
 	}),
 	groupField : 'tag',
     listeners : {
@@ -40,7 +40,8 @@ xBug.grid.Parser  = new Ext.grid.GridPanel ({
     columns: [{header: 'Tag', dataIndex: 'tag', width: 150, fixed: true, align: 'right', sortable: true, summaryType: 'count',
         summaryRenderer: function(v, params, data){
             return ((v === 0 || v > 1) ? '(' + v +' Tags processed)' : '(1 Tag processed)');
-        },},
+
+        }},
         {header: 'outerTag', dataIndex: 'outerTag'},
         {header: 'Processing Time (S)', dataIndex : 'processTime', width: 150, fixed: true, align : 'right', sortable: true, summaryType: 'sum'},
         {header: 'cacheable', dataIndex: 'cacheable', width: 100, fixed: true, align: 'right', sortable: true}],
@@ -128,12 +129,7 @@ xBug.panel.Profiler = function(config) {
 				name : 'resource',
 				width : 400,
                 id : 'url',
-                description : 'Resource ID or URL from site without domain',
-                listeners : {
-                    change : function(evt, newValue, oldValue) {
-                        console.log(evt);
-                    }
-                }
+                description : 'Resource ID or URL from site without domain'
 			},{
                 xtype: 'label'
                 ,forId: 'url'
@@ -152,7 +148,8 @@ xBug.panel.Profiler = function(config) {
 				name : 'url-params',
 				width : 400,
                 id : 'parameters',
-                description : 'Url parameters in format &somevar=1&othervar=2'
+                description : 'Url parameters in format &somevar=1&othervar=2',
+                allowDrop : false
 			},{
                 xtype: 'label'
                 ,forId: 'parameters'
@@ -186,7 +183,8 @@ xBug.panel.Profiler = function(config) {
         listeners : {
             added : function(evt) {
                 this.onReady(evt);
-            }
+            },
+
         }
 	});
 
@@ -259,9 +257,6 @@ Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
         }
 
 
-    },
-    onDragDrop : function (e, id){
-        console.log(e);
     }
 });
 

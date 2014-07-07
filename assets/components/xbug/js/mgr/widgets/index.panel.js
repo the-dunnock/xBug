@@ -71,9 +71,10 @@ xBug.grid.Results = new Ext.grid.GridPanel ({
             var record = grid.getStore().getAt(rowIndex);
             for (var key in record.data) {
                 var obj = record.data[key];
-                obj = obj.replace(/&lt;/gi, '<');
-                obj = obj.replace(/&gt;/gi, '>');
-                console.log(obj);
+                if (obj !== null) {
+                    obj = obj.replace(/&lt;/gi, '<');
+                    obj = obj.replace(/&gt;/gi, '>');
+                }
                 record.data[key] = obj;
             }
             var resultGrid = new Ext.grid.PropertyGrid({
@@ -191,7 +192,7 @@ xBug.panel.Index = function(config) {
     Ext.apply(config, {
         baseCls: 'xbug-formpanel',
         cls: 'container',
-        title : '<h2>' + _('xbug') + '</h2>',
+        title : '<h2>' + _('xbug.xbugquery') + '</h2>',
         layout : 'fit',
         frame : false,
         border: false,

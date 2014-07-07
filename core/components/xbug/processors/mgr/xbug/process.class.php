@@ -45,7 +45,6 @@ class XbugProcessor extends modProcessor {
         $collection = array();
         $this->log['memory']['pre_query'] = memory_get_usage(true);
         $tstart= $this->modx->getMicroTime();
-        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Got this far 1');
         if ($stmt->execute()) {
             $this->log['timings']['query'] = round(($this->modx->getMicroTime() - $tstart) * 1000, 4);
             $this->log['memory']['post_query'] = memory_get_usage(true);
@@ -145,7 +144,6 @@ class XbugProcessor extends modProcessor {
         }
         foreach($results['explain'] as &$row) {
             foreach ($row as $key => &$val) {
-                $this->modx->log(xPDO::LOG_LEVEL_ERROR, $key);
                 if ($key == 'Extra') {
                     $vars = explode(";", $val);
                     foreach ($vars as &$var) {

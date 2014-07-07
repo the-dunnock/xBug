@@ -191,7 +191,6 @@ class xBugLog extends xPDOSimpleObject {
             $xpdo->call('xBugLog', '_cacheControl', array($xpdo, true));
             self::$init = true;
         }
-        $objCollection = array();
         if ($query= $xpdo->newQuery($className, $criteria, $cacheFlag)) {
             $query = $xpdo->addDerivativeCriteria($className, $query);
             $query->bindGraph($graph);
