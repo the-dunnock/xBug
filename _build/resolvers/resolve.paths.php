@@ -53,7 +53,7 @@ if ($object->xpdo) {
             /* setup urls */
             createSetting($modx,'assets_url',$modx->getOption('assets_url').'components/xbug/');
             createSetting($modx,'xbug_auth_key',md5(time()));
-            $modx->addExtensionPackage('xbug', $modx->getOption('core_path').'components/xbug/model/', array(
+            $modx->addExtensionPackage('xbug', '[[++core_path]]components/xbug/model/', array(
                 'serviceName' => 'xbug', 'serviceClass' => 'xBug'
             ));
         break;

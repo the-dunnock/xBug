@@ -1,9 +1,5 @@
 <?php
 if ($modx->context->key != 'mgr') {
-    if ($modx->event->name == 'OnInitCulture') {
-
-    }
-    //$modx->log(xPDO::LOG_LEVEL_ERROR, $modx->event->name);
     if ($modx->event->name == 'OnWebPageComplete') {
         $modx->query('SET PROFILING = 0');
         $modx->query('SET SESSION query_cache_type = ON');

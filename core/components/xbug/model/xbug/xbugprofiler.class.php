@@ -10,13 +10,6 @@ class xBugProfiler {
 	public $_cm = null;
 	
 	private $_events = array(
-		'OnInitCulture',
-		'OnHandleRequest',
-		'OnWebPageInit',
-		'OnLoadWebDocument',
-		'OnParseDocument',
-		'OnWebPagePrerender',
-		'OnBeforeSaveWebPageCache',
 		'OnWebPageComplete'
 	);
 	

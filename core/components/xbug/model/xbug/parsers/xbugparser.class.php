@@ -52,7 +52,7 @@ class xBugParser extends modParser {
         }
 		$tagKey = str_replace(array('!', '+', '%', '$', '*'), '', $tagName);
 		$log = array('tag' => $tagKey, 'cacheable' => $cacheable ? 1 : 0, 'outerTag' => $outerTag);
-		$tstart= $this->modx->getMicroTime();
+		$tstart= microtime(true);
         if ($elementOutput === null) {
             switch ($token) {
                 case '+':
@@ -117,7 +117,7 @@ class xBugParser extends modParser {
                     }
             }
         }
-		$log['processTime'] = (($this->modx->getMicroTime() - $tstart));
+		$log['processTime'] = ((microtime(true)- $tstart));
 		$this->modx->xbugprofiler->addLogEvent('parser', $log);
 		
         if (($elementOutput === null || $elementOutput === false) && $outerTag !== $tag[0]) {

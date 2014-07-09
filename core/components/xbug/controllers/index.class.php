@@ -25,6 +25,10 @@
  * @package xbug
  * @subpackage controllers
  */
+if (!class_exists('xBugManagerController')) {
+    require_once dirname(dirname(__FILE__)).'/index.class.php';
+}
+
 class xBugIndexManagerController extends xBugManagerController {
     public function process(array $scriptProperties = array()) {
 
