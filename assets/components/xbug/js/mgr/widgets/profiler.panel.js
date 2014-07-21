@@ -78,27 +78,6 @@ xBug.grid.Profile  = new Ext.grid.GridPanel ({
         forceFit: true  
     }
 });
-xBug.panel.bugFrame = new Ext.BoxComponent({
-	autoEl : {
-		tag : 'iframe',
-		frameborder : 0,
-		src : '',
-		style : 'display:none;',
-		id : 'xbug-profile-iframe'
-	},
-	id : 'xbug-profile-iframe',
-	listeners: {
-        afterrender: function () {
-            this.getEl().on('load', function () {
-				xBug.stores.Parser.load();	
-            });
-        }
-    }
-})
-
-Ext.onReady(function() {
-    xBug.panel.bugFrame.render(Ext.getDom('xbug-panel-profiler-div'));
-});
 xBug.panel.Profiler = function(config) {
     config = config || {};
     Ext.apply(config, {
@@ -263,7 +242,7 @@ xBug.panel.Profiler = function(config) {
         listeners : {
             added : function(evt) {
                 this.onReady(evt);
-            },
+            }
 
         }
 	});
@@ -271,12 +250,7 @@ xBug.panel.Profiler = function(config) {
     xBug.panel.Profiler.superclass.constructor.call(this, config);
 }
 
-var xBugUrl = null;
-function setXbugUrl(url) {
-    xBugUrl = url;
-}
 Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
-
     onReady: function(r) {
         this.isReady = true;
         this.loadDropZones();
@@ -297,55 +271,7 @@ Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
                 }
             }
         });
-    },
-    profilePage : function(b, e) {
-		if (!xBug.panel.bugFrame.rendered) {
-			xBug.panel.bugFrame.render();
-		}
-        var baseurl;
-        var params = Ext.getCmp('parameters').getValue();
-        var url = Ext.getCmp('url').getValue();
-        var domain = Ext.getCmp('domain').getValue();
-        var noAJAX = false;
-        if (domain  != '') {
-            baseurl = domain;
-        } else {
-            baseurl = MODx.config.base_url;
-        }
-
-        var pat = new RegExp(/\[\[\~[0-9]*\]\]/);
-        var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
-
-        var id = null;
-        if (url == '') {
-            xBugUrl = baseurl + '?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
-        } else if (pat.test(url)) {
-            var match = url.match(/\d+/);
-            id = match[0];
-            xBugUrl = baseurl+"?id=" + parseInt(match[0]) +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
-        } else if (url % 1 === 0) { // Quite dummy check
-            id = url;
-            xBugUrl = baseurl+"?id=" + url +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
-        } else {
-            xBugUrl = baseurl+url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
-        }
-        if (MODx.config.friendly_urls == 1 && id !== null) {
-            Ext.Ajax.request({
-                url: xBug.config.connectorUrl+'?action=mgr/xbug/getfurl&id=' + id + "&baseurl=" + baseurl ,
-                success: function(response, opts) {
-                    var obj = Ext.decode(response.responseText);
-                    setXbugUrl(baseurl+obj.url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params);
-                    xBug.panel.bugFrame.el.dom.src = xBugUrl;
-                },
-                failure: function(response, opts) {
-                    console.log('server-side failure with status code ' + response.status);
-                }
-            });
-
-        } else {
-            xBug.panel.bugFrame.el.dom.src = xBugUrl;
-        }
-    }, sendRequest : function () {
+    },sendRequest : function () {
 
         var url = Ext.getCmp('url').getValue();
         var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
