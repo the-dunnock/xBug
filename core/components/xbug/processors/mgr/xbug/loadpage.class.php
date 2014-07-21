@@ -7,19 +7,18 @@ class xBugLoadPageProcessor extends modProcessor {
         if (!$domain) {
             $domain = $this->modx->getOption('site_url');
         }
-        if ($this->modx->getOption('friendly_urls') == true && is_numeric(($url))) {
-            if ($url == $this->modx->getOption('site_start')) {
-                $url = "";
-            } else {
-                $url = $this->getUri($url);
-            }
 
+        if ($this->modx->getOption('friendly_urls') == true && is_numeric(($url))) {
+            $uri = str_replace($this->modx->getOption('site_url'), '', $this->modx->makeUrl($url, '', '', 0));
+            $startParam = '?';
+        } else {
+            $uri = $this->modx->makeUrl($url);
+            $startParam = '&';
         }
 
-        $post = trim($this->getProperty('post'),"' ");
-        $get = trim($this->getProperty('get'),"' ");
-        $cookie = trim($this->getProperty('cookie'),"' ");
-
+        $post = trim($this->getProperty('post', ''),"' ");
+        $get = trim($this->getProperty('get', ''),"' ");
+        $cookie = trim($this->getProperty('cookie', ''),"' ");
 
         $field_array= array(
             'Accept' => 'HTTP_ACCEPT',
@@ -32,7 +31,8 @@ class xBugLoadPageProcessor extends modProcessor {
             'User-Agent' => 'HTTP_USER_AGENT'
         );
 
-        $url = $domain . $url . "?xbug=".$this->modx->getOption('xbug.xbug_auth_key').'&'.$get."&clear_cache=" . $this->getProperty('clear_cache');
+        $url = $domain . $uri . $startParam."xbug=".$this->modx->getOption('xbug.xbug_auth_key').$get."&clear_cache=" . $this->getProperty('clear_cache');
+
         $curl_request_headers=array();
         foreach ($field_array as $key => $value) {
             if(isset($_SERVER["$value"])) {
@@ -43,13 +43,13 @@ class xBugLoadPageProcessor extends modProcessor {
         $curl_request_headers[]="Expect: ";
 
         $curl_handle = curl_init();
-
+        $postCount = ($post != '') ? substr_count("&", $post) : 0;
         curl_setopt($curl_handle, CURLOPT_URL, $url);
         curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl_handle, CURLOPT_AUTOREFERER, TRUE);
         curl_setopt($curl_handle, CURLOPT_HEADER, 1);
         curl_setopt($curl_handle, CURLOPT_COOKIE, $cookie);
-        curl_setopt($curl_handle, CURLOPT_POST, substr_count("&", $post));
+        curl_setopt($curl_handle, CURLOPT_POST, $postCount);
         curl_setopt($curl_handle, CURLOPT_POSTFIELDS, ltrim($post, "&"));
         curl_setopt($curl_handle, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($curl_handle, CURLOPT_HTTPHEADER, $curl_request_headers);
@@ -71,6 +71,8 @@ class xBugLoadPageProcessor extends modProcessor {
 
         if (!$uri) {
             $uri = $id;
+        } else if (is_numeric($uri)) {
+            $uri = $this->getOption('request_param_id') . "=" . $id;
         }
         return $uri;
     }

@@ -10,6 +10,7 @@ class XbugProfile extends modProcessor {
     }
     
     function process() {
+        $profiles = array();
 		$profiler = $this->xbug->loadProfiler();
 		$profiles = $profiler->readLog();
 		return $this->outputArray($profiles);

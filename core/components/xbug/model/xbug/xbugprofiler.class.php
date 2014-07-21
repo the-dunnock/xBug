@@ -16,7 +16,6 @@ class xBugProfiler {
     public function __construct(modX &$modx, $params = array()) {
         $this->modx = $modx;
         $this->xbug = $params['xbug'];
-        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Profiler Construct');
     }
 
     public function addLogEvent($key, $value) {
