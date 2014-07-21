@@ -43,18 +43,16 @@ class xBug {
             'processorsPath' => $corePath.'processors/',
             'templatesPath' => $corePath.'templates/',
         ),$config);
-		if (isset($_GET['xbug']) && $_GET['xbug'] == $modx->getOption('xbug.xbug_auth_key')) {
-			$this->loadProfiler();
-			$this->profiler->forceParser();
-			$this->profiler->enablePlugins();
+        if (isset($_GET['xbug']) && $_GET['xbug'] == $modx->getOption('xbug.xbug_auth_key')) {
+            $this->loadProfiler();
+            $this->profiler->forceParser();
+            $this->profiler->enablePlugins();
             if (isset($_GET['clear_cache']) && $_GET['clear_cache'] == 1) {
                 $this->_clearMODXCache();
             }
 
-		}
+        }
         $this->modx->addPackage('xbug',$this->config['modelPath'], 'xbug_');
-        //$this->modx->lexicon->load('xbug:default');
-
     }
 
     private function _clearMODXCache () {
@@ -69,7 +67,7 @@ class xBug {
     
     public function loadProfiler() {
 		if ($this->profiler === null) {
-			$this->profiler = $this->modx->getService('xbugprofiler', 'xBugProfiler', $this->config['modelPath'].'xbug/', array('xbug' => $this));
+            $this->profiler = $this->modx->getService('xbugprofiler', 'xBugProfiler', $this->config['modelPath'].'xbug/', array('xbug' => $this));
 		}
         return $this->profiler;
     }

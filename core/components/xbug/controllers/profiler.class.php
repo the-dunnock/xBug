@@ -39,10 +39,6 @@ class xBugProfilerManagerController extends xBugManagerController {
         $this->addLastJavascript($this->xbug->config['jsUrl'].'mgr/utils/GroupSummary.js');
         $this->addLastJavascript($this->xbug->config['jsUrl'].'mgr/widgets/profiler.panel.js');
         $this->addLastJavascript($this->xbug->config['jsUrl'].'mgr/sections/profiler.js');
-        $this->addHtml('<script type="text/javascript">
-            var xbug_auth_key = "'.$this->modx->getOption('xbug.xbug_auth_key').'";
-
-        </script>');
     }
     public function getTemplateFile() { return $this->xbug->config['templatesPath'].'profiler.tpl'; }
 }

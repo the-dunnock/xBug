@@ -27,10 +27,22 @@
 require_once dirname(dirname(dirname(dirname(__FILE__)))).'/config.core.php';
 require_once MODX_CORE_PATH.'config/'.MODX_CONFIG_KEY.'.inc.php';
 require_once MODX_CONNECTORS_PATH.'index.php';
-
+@session_cache_limiter('nocache');
 $corePath = $modx->getOption('xbug.core_path',null,$modx->getOption('core_path').'components/xbug/');
 require_once $corePath.'model/xbug/xbug.class.php';
 $modx->xbug = new xBug($modx);
+
+if (!empty($_REQUEST['action'])) {
+    define('MODX_REQP',false);
+}
+
+if ($modx->user->hasSessionContext($modx->context->get('key'))) {
+    $_SERVER['HTTP_MODAUTH'] = $_SESSION["modx.{$modx->context->get('key')}.user.token"];
+    $_REQUEST['HTTP_MODAUTH'] = $_SERVER['HTTP_MODAUTH'];
+} else { // Allow anonymous access
+    $_SESSION["modx.{$modx->context->get('key')}.user.token"] = 0;
+    $_SERVER['HTTP_MODAUTH'] = 0;
+}
 
 $modx->lexicon->load('xbug:default');
 

@@ -8,3 +8,5 @@
 #xbug-panel-index-div + .x-panel-bwrap .x-border-layout-ct { background : transparent; }
 
 #xbug-profiler-form + div .x-grid3-summary-row .x-grid3-cell-inner{ font-weight: bold; color: #444; }
+
+#xbug-profiler-form .x-toolbar { border: 0; }

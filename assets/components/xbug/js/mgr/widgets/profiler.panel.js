@@ -117,62 +117,142 @@ xBug.panel.Profiler = function(config) {
 			border : false,
 			frame : true,
 			autoWidth : true,
-			items : [{
-                xtype: 'label'
-                ,forId: 'url'
-                ,html: '<p><b>URL to be tested</b></p>'
-                ,cls: 'desc-under'
+            items : [{
+                layout : 'column',
+                border: false
+                ,anchor: '100%'
+                ,id: 'modx-resource-main-columns'
+                ,defaults: {
+                    labelSeparator: ''
+                    ,labelAlign: 'top'
+                    ,border: false
+                    ,msgTarget: 'under'
+                },
+                items : [{
+                    columnWidth: .45
+                    ,id: 'modx-resource-main-left'
+                    ,defaults: { msgTarget: 'under' }
+                    ,items : [{
+                        xtype: 'label'
+                        ,forId: 'domain'
+                        ,html: '<p><b>Domain</b></p>'
+                        ,cls: 'desc-under'
 
-            },{
-				xtype : 'textfield',
-				fieldLabel : 'URL or resource id',
-				name : 'resource',
-				width : 400,
-                id : 'url',
-                description : 'Resource ID or URL from site without domain'
-			},{
-                xtype: 'label'
-                ,forId: 'url'
-                ,html: '<p>Resource ID or URL from site without domain</p>'
-                ,cls: 'desc-under'
+                    },{
+                        xtype : 'textfield',
+                        fieldLabel : 'Domain Name',
+                        name : 'domain',
+                        width : 400,
+                        id : 'domain',
+                        description : 'Domain name to be tested, defaults to base_url'
+                    },{
+                        xtype: 'label'
+                        ,forId: 'domain'
+                        ,html: '<p>Domain name to be tested, defaults to base_url</p>'
+                        ,cls: 'desc-under'
 
-            },{
-                xtype: 'label'
-                ,forId: 'parameters'
-                ,html: '<p><b>Url Parameters</b></p>'
-                ,cls: 'desc-under'
+                    },{
+                        xtype: 'label'
+                        ,forId: 'url'
+                        ,html: '<p><b>URI to be tested</b></p>'
+                        ,cls: 'desc-under'
 
-            },{
-				xtype : 'textfield',
-				fieldLabel : 'URL parameters',
-				name : 'url-params',
-				width : 400,
-                id : 'parameters',
-                description : 'Url parameters in format &somevar=1&othervar=2',
-                allowDrop : false
-			},{
-                xtype: 'label'
-                ,forId: 'parameters'
-                ,html: '<p>Url parameters in format &somevar=1&othervar=2</p>'
-                ,cls: 'desc-under'
+                    },{
+                        xtype : 'textfield',
+                        fieldLabel : 'URI or resource id',
+                        name : 'resource',
+                        width : 400,
+                        id : 'url',
+                        description : 'Resource ID or URI from site without domain'
+                    },{
+                        xtype: 'label'
+                        ,forId: 'url'
+                        ,html: '<p>Resource ID or URI from site without domain</p>'
+                        ,cls: 'desc-under'
 
-            },{
-                xtype : 'toolbar',
-                items :  [{
-                    xtype : 'checkbox',
-                    name : 'clear_cache',
-                    id : 'clear_cache',
-                    boxLabel : 'Refresh cache before page load'
+                    },{
+                        xtype : 'toolbar',
+                        hideBorders: true,
+                        items :  [{
+                            xtype : 'checkbox',
+                            name : 'clear_cache',
+                            id : 'clear_cache',
+                            boxLabel : 'Refresh cache before page load'
+                        },{
+                            xtype : 'tbspacer',
+                            width : '20'
+                        },{
+                            xtype : 'button',
+                            name : 'profile',
+                            text : 'Profile Page',
+                            handler : this.sendRequest
+                        }]
+                    }]
                 },{
-                    xtype : 'tbspacer',
-                    width : '20'
-                },{
-                    xtype : 'button',
-                    name : 'profile',
-                    text : 'Profile Page',
-                    handler : this.profilePage
+                    columnwidth: 0.5,
+                    items :[{
+                        xtype: 'label'
+                        ,forId: 'parameters'
+                        ,html: '<p><b>GET Parameters</b></p>'
+                        ,cls: 'desc-under'
+
+                    },{
+                        xtype : 'textfield',
+                        fieldLabel : 'URL parameters',
+                        name : 'url-params',
+                        width : 400,
+                        id : 'parameters',
+                        description : 'GET parameters in format &somevar=1&othervar=2',
+                        allowDrop : false
+                    },{
+                        xtype: 'label'
+                        ,forId: 'parameters'
+                        ,html: '<p>GET parameters in format &somevar=1&othervar=2</p>'
+                        ,cls: 'desc-under'
+
+
+                    },{
+                        xtype: 'label'
+                        ,forId: 'post-parameters'
+                        ,html: '<p><b>POST Parameters</b></p>'
+                        ,cls: 'desc-under'
+
+                    },{
+                        xtype : 'textfield',
+                        fieldLabel : 'POST parameters',
+                        name : 'post-params',
+                        width : 400,
+                        id : 'post-parameters',
+                        description : 'POST parameters in format &somevar=1&othervar=2',
+                        allowDrop : false
+                    },{
+                        xtype: 'label'
+                        ,forId: 'post-parameters'
+                        ,html: '<p>POST parameters in format &somevar=1&othervar=2</p>'
+                        ,cls: 'desc-under'
+                    },{
+                        xtype: 'label'
+                        ,forId: 'cookie-parameters'
+                        ,html: '<p><b>COOKIE Parameters</b></p>'
+                        ,cls: 'desc-under'
+
+                    },{
+                        xtype : 'textfield',
+                        fieldLabel : 'COOKIE parameters',
+                        name : 'cookie-params',
+                        width : 400,
+                        id : 'cookie-parameters',
+                        description : 'COOKIE parameters in format somevar=1;othervar=2',
+                        allowDrop : false
+                    },{
+                        xtype: 'label'
+                        ,forId: 'cookie-parameters'
+                        ,html: '<p>COOKIE parameters in format somevar=1;othervar=2</p>'
+                        ,cls: 'desc-under'
+                    }]
                 }]
             }]
+
 		},{
 			xtype : 'panel',
 			autoHeight : true,
@@ -222,29 +302,39 @@ Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
 		if (!xBug.panel.bugFrame.rendered) {
 			xBug.panel.bugFrame.render();
 		}
+        var baseurl;
         var params = Ext.getCmp('parameters').getValue();
         var url = Ext.getCmp('url').getValue();
+        var domain = Ext.getCmp('domain').getValue();
+        var noAJAX = false;
+        if (domain  != '') {
+            baseurl = domain;
+        } else {
+            baseurl = MODx.config.base_url;
+        }
+
         var pat = new RegExp(/\[\[\~[0-9]*\]\]/);
         var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
+
         var id = null;
         if (url == '') {
-            this.url = '?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+            xBugUrl = baseurl + '?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
         } else if (pat.test(url)) {
             var match = url.match(/\d+/);
             id = match[0];
-            xBugUrl = MODx.config.base_url+"?id=" + parseInt(match[0]) +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+            xBugUrl = baseurl+"?id=" + parseInt(match[0]) +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
         } else if (url % 1 === 0) { // Quite dummy check
             id = url;
-            xBugUrl = MODx.config.base_url+"?id=" + url +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+            xBugUrl = baseurl+"?id=" + url +'&xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
         } else {
-            xBugUrl = MODx.config.base_url+url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
+            xBugUrl = baseurl+url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params;
         }
-        if (MODx.config.friendly_urls == 1) {
+        if (MODx.config.friendly_urls == 1 && id !== null) {
             Ext.Ajax.request({
-                url: xBug.config.connectorUrl+'?action=mgr/xbug/getfurl&id=' + id ,
+                url: xBug.config.connectorUrl+'?action=mgr/xbug/getfurl&id=' + id + "&baseurl=" + baseurl ,
                 success: function(response, opts) {
                     var obj = Ext.decode(response.responseText);
-                    setXbugUrl(obj.url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params);
+                    setXbugUrl(baseurl+obj.url+'?xbug='+ xbug_auth_key+'&clear_cache='+clear_cache+params);
                     xBug.panel.bugFrame.el.dom.src = xBugUrl;
                 },
                 failure: function(response, opts) {
@@ -255,8 +345,33 @@ Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
         } else {
             xBug.panel.bugFrame.el.dom.src = xBugUrl;
         }
+    }, sendRequest : function () {
 
+        var url = Ext.getCmp('url').getValue();
+        var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
+        var domain = Ext.getCmp('domain').getValue();
 
+        var getvars = "'" + Ext.getCmp('parameters').getValue() + "'";
+        var postvars = "'" + Ext.getCmp('post-parameters').getValue() + "'";
+        var cookievars = "'" + Ext.getCmp('cookie-parameters').getValue() + "'";
+
+        var id = url;
+        var pat = new RegExp(/\[\[\~[0-9]*\]\]/);
+
+        if (pat.test(url)) {
+            var match = url.match(/\d+/);
+            id = match[0];
+        }
+        Ext.Ajax.request({
+            url: xBug.config.connectorUrl+'?action=mgr/xbug/loadpage&url=' + id + "&domain=" +domain + "&clear_cache=" + clear_cache + "&get=" + getvars +
+                "&post=" + postvars + "&cookie=" + cookievars,
+            success: function(response, opts) {
+                xBug.stores.Parser.load();
+            },
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+            }
+        });
     }
 });
 

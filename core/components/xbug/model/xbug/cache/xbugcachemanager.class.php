@@ -3,7 +3,7 @@
 class xBugCacheManager extends modCacheManager {
     function __construct(& $xpdo, array $options = array()) {
         parent :: __construct($xpdo, $options);
-        $this->modx =& $this->xpdo;
+        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'CacheManager constructed');
     }
 	
 	public function get($key, $options = array()) {
