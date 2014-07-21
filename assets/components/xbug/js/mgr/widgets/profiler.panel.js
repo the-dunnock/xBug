@@ -123,11 +123,11 @@ xBug.panel.Profiler = function(config) {
                         name : 'domain',
                         width : 400,
                         id : 'domain',
-                        description : 'Domain name to be tested, defaults to base_url'
+                        description : 'Domain name to be tested, defaults to site_url. Always end domain with /'
                     },{
                         xtype: 'label'
                         ,forId: 'domain'
-                        ,html: '<p>Domain name to be tested, defaults to base_url</p>'
+                        ,html: '<p>Domain name to be tested, defaults to site_url. Always end domain with /</p>'
                         ,cls: 'desc-under'
 
                     },{
@@ -288,14 +288,17 @@ Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
             var match = url.match(/\d+/);
             id = match[0];
         }
+        Ext.getCmp('xbug-profiler').getEl().mask('Please wait for page loader to load page');
         Ext.Ajax.request({
             url: xBug.config.connectorUrl+'?action=mgr/xbug/loadpage&url=' + id + "&domain=" +domain + "&clear_cache=" + clear_cache + "&get=" + getvars +
                 "&post=" + postvars + "&cookie=" + cookievars,
             success: function(response, opts) {
                 xBug.stores.Parser.load();
+                Ext.getCmp('xbug-profiler').getEl().unmask();
             },
             failure: function(response, opts) {
                 console.log('server-side failure with status code ' + response.status);
+                Ext.getCmp('xbug-profiler').getEl().unmask();
             }
         });
     }

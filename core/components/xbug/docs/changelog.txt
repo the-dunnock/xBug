@@ -1,5 +1,15 @@
 Changelog for xBug.
 
+xBug 0.8.0
+==============
+- Added support for POST and COOKIE
+-- Changed page load from iFrame to CURL with PHP
+- Ability to switch context through domain name
+
+xBug >0.7.3
+==============
+- Minor and Major bug fixes
+
 xBug 0.7.2
 ==============
 - Minor fix to plugin
