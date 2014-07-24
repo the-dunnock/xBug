@@ -45,6 +45,7 @@ class xBug {
         ),$config);
         if (isset($_GET['xbug']) && $_GET['xbug'] == $modx->getOption('xbug.xbug_auth_key')) {
             $this->loadProfiler();
+            $this->profiler->enableCacheManager();
             $this->profiler->forceParser();
             $this->profiler->enablePlugins();
             if (isset($_GET['clear_cache']) && $_GET['clear_cache'] == 1) {

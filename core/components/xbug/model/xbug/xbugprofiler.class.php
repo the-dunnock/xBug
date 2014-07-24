@@ -6,7 +6,8 @@ class xBugProfiler {
 	public $xbug = null;
 	public $modx = null;
 	public $logger = array('parser' => array(),
-		'profiles' => array());
+		'profiles' => array(),
+        'cache' => array());
 	public $_cm = null;
 	
 	private $_events = array(
@@ -22,6 +23,11 @@ class xBugProfiler {
         $this->logger[$key][] = $value;
     }
 
+    public function enableCacheManager() {
+        $this->modx->cacheManager = null;
+        $this->modx->loadClass('cache.xBugCacheManager', dirname(__FILE__).'/', true, true);
+        $this->modx->cacheManager = new xBugCacheManager($this->modx, array(), $this);
+    }
     public function enablePlugins() {
         $plugin = $this->modx->getObject('modPlugin', array('name' => 'xBugEvents'));
         $plugin->disabled = 0;
@@ -31,6 +37,8 @@ class xBugProfiler {
         foreach($this->_events as $e) {
             $events[$e] = array($plugId => $plugId);
         }
+
+
         $this->modx->eventMap = array_merge($this->modx->eventMap, $events);
         $this->modx->query('SET SESSION query_cache_type = OFF');
         $this->modx->query('SET profiling_history_size = 100');

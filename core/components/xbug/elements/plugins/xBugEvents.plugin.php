@@ -11,4 +11,5 @@ if ($modx->context->key != 'mgr') {
             $modx->xbugprofiler->writeLog();
         }
     }
+    return '';
 }

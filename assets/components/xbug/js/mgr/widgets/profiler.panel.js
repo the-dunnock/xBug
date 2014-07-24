@@ -23,6 +23,12 @@ xBug.stores.Parser =  new Ext.data.GroupingStore({
 				success : true,
 				profiles : store.reader.jsonData.profiles
 			});
+            xBug.stores.Cache.loadData({
+                total : 1,
+                success : true,
+                cache : store.reader.jsonData.cache
+            });
+            console.log(store.reader.jsonData.cache);
 		},
         'exception' : function(misc) {
 			console.log('exception');
@@ -78,6 +84,32 @@ xBug.grid.Profile  = new Ext.grid.GridPanel ({
         forceFit: true  
     }
 });
+
+xBug.stores.Cache =  new Ext.data.JsonStore({
+    autoDestroy: true,
+    autoLoad: false,
+    url : null,
+    fields : [{name : 'key'}, {name : 'processTime'}, {name : 'hit'}],
+    root : 'cache'
+});
+
+
+xBug.grid.Cache  = new Ext.grid.GridPanel ({
+    store: xBug.stores.Cache,
+    columns: [{header: 'KEY', dataIndex: 'key', align: 'right', width: 200, fixed : true, align: 'left'},
+        {header: 'Duration (S)', dataIndex: 'processTime', width: 300, fixed: true, align: 'right', sortable: true},
+        {header: 'Cache Hit', dataIndex: 'hit', sortable: true,width: 100, fixed: true,align: 'right'}],
+    autoWidth: true,
+    height: 400,
+    frame: false,
+    title: 'Cache Hit/Miss and cache retrieval times',
+    id: 'xbug-cache-grid',
+    margins: { top: 5, right: 0, bottom: 5, left: 0},
+    viewConfig: {
+        forceFit: true
+    }
+});
+
 xBug.panel.Profiler = function(config) {
     config = config || {};
     Ext.apply(config, {
@@ -237,7 +269,8 @@ xBug.panel.Profiler = function(config) {
 			autoHeight : true,
 			height : 800,
 			items : [xBug.grid.Parser.show(),
-				xBug.grid.Profile.show()]
+				xBug.grid.Profile.show(),
+                xBug.grid.Cache.show()]
 		}],
         listeners : {
             added : function(evt) {

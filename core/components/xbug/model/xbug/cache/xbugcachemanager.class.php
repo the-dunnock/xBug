@@ -1,13 +1,22 @@
 <?php
 
 class xBugCacheManager extends modCacheManager {
-    function __construct(& $xpdo, array $options = array()) {
+    function __construct(& $xpdo, $options = array()) {
         parent :: __construct($xpdo, $options);
-        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'CacheManager constructed');
     }
 	
 	public function get($key, $options = array()) {
-		$this->modx->log(xPDO::LOG_LEVEL_ERROR, 'xBugCache get : ' . $key);
-		return false;
+        $log['key'] = $key;
+        $tstart = microtime(true);
+        $return = parent::get($key, $options);
+        $log['processTime'] = ((microtime(true)- $tstart));
+        if ($return == false) {
+            $log['hit'] = 'false';
+        } else {
+            $log['hit'] = 'true';
+        }
+        $this->xpdo->xbugprofiler->addLogEvent('cache', $log);
+        return $return;
+
 	}
 }

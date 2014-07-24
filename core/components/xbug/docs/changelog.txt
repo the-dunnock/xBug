@@ -1,6 +1,11 @@
 Changelog for xBug.
 
-xBug 0.8.0
+xBug 0.8.0-beta
+==============
+- Cache hit / miss logging and times
+- Changed all 'xBugger' names to 'xBug'
+
+xBug 0.8.0-alpha
 ==============
 - Added support for POST and COOKIE
 -- Changed page load from iFrame to CURL with PHP

@@ -35,7 +35,7 @@ set_time_limit(0);
 define('PKG_NAME','xBug');
 define('PKG_NAME_LOWER',strtolower(PKG_NAME));
 define('PKG_VERSION','0.8.0');
-define('PKG_RELEASE','alpha');
+define('PKG_RELEASE','beta');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)).'/';
