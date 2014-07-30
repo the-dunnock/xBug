@@ -57,6 +57,9 @@ if ($object->xpdo) {
                 'serviceName' => 'xbug', 'serviceClass' => 'xBug'
             ));
         break;
+        case xPDOTransport::ACTION_UNINSTALL:
+            $modx->removeExtensionPackage('xbug');
+            break;
     }
 }
 return true;

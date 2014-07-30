@@ -8,8 +8,11 @@ class xBugLoadPageProcessor extends modProcessor {
             $domain = $this->modx->getOption('site_url');
         }
 
-        if ($this->modx->getOption('friendly_urls') == true && is_numeric(($url))) {
+        if ($this->modx->getOption('friendly_urls') == true && is_numeric($url)) {
             $uri = str_replace($this->modx->getOption('site_url'), '', $this->modx->makeUrl($url, '', '', 0));
+            $startParam = '?';
+        } else if (is_string($url)) {
+            $uri = $url;
             $startParam = '?';
         } else {
             $uri = $this->modx->makeUrl($url);
@@ -32,7 +35,6 @@ class xBugLoadPageProcessor extends modProcessor {
         );
 
         $url = $domain . $uri . $startParam."xbug=".$this->modx->getOption('xbug.xbug_auth_key').$get."&clear_cache=" . $this->getProperty('clear_cache');
-
         $curl_request_headers=array();
         foreach ($field_array as $key => $value) {
             if(isset($_SERVER["$value"])) {

@@ -28,7 +28,6 @@ xBug.stores.Parser =  new Ext.data.GroupingStore({
                 success : true,
                 cache : store.reader.jsonData.cache
             });
-            console.log(store.reader.jsonData.cache);
 		},
         'exception' : function(misc) {
 			console.log('exception');
