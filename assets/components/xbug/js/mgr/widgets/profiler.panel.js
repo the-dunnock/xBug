@@ -28,6 +28,15 @@ xBug.stores.Parser =  new Ext.data.GroupingStore({
                 success : true,
                 cache : store.reader.jsonData.cache
             });
+            var total_cache = Ext.get('total_cache');
+            console.log(store.reader.jsonData.totals);
+            total_cache.update(store.reader.jsonData.totals.cache);
+
+            var total_query = Ext.get('total_query');
+            total_query.update(store.reader.jsonData.totals.profiles);
+
+            var total_parsing = Ext.get('total_parsing');
+            total_parsing.update(store.reader.jsonData.totals.parser);
 		},
         'exception' : function(misc) {
 			console.log('exception');
@@ -131,7 +140,6 @@ xBug.panel.Profiler = function(config) {
                 layout : 'column',
                 border: false
                 ,anchor: '100%'
-                ,id: 'modx-resource-main-columns'
                 ,defaults: {
                     labelSeparator: ''
                     ,labelAlign: 'top'
@@ -139,8 +147,7 @@ xBug.panel.Profiler = function(config) {
                     ,msgTarget: 'under'
                 },
                 items : [{
-                    columnWidth: .45
-                    ,id: 'modx-resource-main-left'
+                    columnWidth: 0.45
                     ,defaults: { msgTarget: 'under' }
                     ,items : [{
                         xtype: 'label'
@@ -150,9 +157,8 @@ xBug.panel.Profiler = function(config) {
 
                     },{
                         xtype : 'textfield',
+                        width : '80%',
                         fieldLabel : 'Domain Name',
-                        name : 'domain',
-                        width : 400,
                         id : 'domain',
                         description : 'Domain name to be tested, defaults to site_url. Always end domain with /'
                     },{
@@ -171,7 +177,7 @@ xBug.panel.Profiler = function(config) {
                         xtype : 'textfield',
                         fieldLabel : 'URI or resource id',
                         name : 'resource',
-                        width : 400,
+                        width : '80%',
                         id : 'url',
                         description : 'Resource ID or URI from site without domain'
                     },{
@@ -180,26 +186,9 @@ xBug.panel.Profiler = function(config) {
                         ,html: '<p>Resource ID or URI from site without domain</p>'
                         ,cls: 'desc-under'
 
-                    },{
-                        xtype : 'toolbar',
-                        hideBorders: true,
-                        items :  [{
-                            xtype : 'checkbox',
-                            name : 'clear_cache',
-                            id : 'clear_cache',
-                            boxLabel : 'Refresh cache before page load'
-                        },{
-                            xtype : 'tbspacer',
-                            width : '20'
-                        },{
-                            xtype : 'button',
-                            name : 'profile',
-                            text : 'Profile Page',
-                            handler : this.sendRequest
-                        }]
                     }]
                 },{
-                    columnwidth: 0.5,
+                    columnwidth: 0.45,
                     items :[{
                         xtype: 'label'
                         ,forId: 'parameters'
@@ -210,7 +199,7 @@ xBug.panel.Profiler = function(config) {
                         xtype : 'textfield',
                         fieldLabel : 'URL parameters',
                         name : 'url-params',
-                        width : 400,
+                        width : '80%',
                         id : 'parameters',
                         description : 'GET parameters in format &somevar=1&othervar=2',
                         allowDrop : false
@@ -231,7 +220,7 @@ xBug.panel.Profiler = function(config) {
                         xtype : 'textfield',
                         fieldLabel : 'POST parameters',
                         name : 'post-params',
-                        width : 400,
+                        width : '80%',
                         id : 'post-parameters',
                         description : 'POST parameters in format &somevar=1&othervar=2',
                         allowDrop : false
@@ -250,7 +239,7 @@ xBug.panel.Profiler = function(config) {
                         xtype : 'textfield',
                         fieldLabel : 'COOKIE parameters',
                         name : 'cookie-params',
-                        width : 400,
+                        width : '80%',
                         id : 'cookie-parameters',
                         description : 'COOKIE parameters in format somevar=1;othervar=2',
                         allowDrop : false
@@ -260,6 +249,42 @@ xBug.panel.Profiler = function(config) {
                         ,html: '<p>COOKIE parameters in format somevar=1;othervar=2</p>'
                         ,cls: 'desc-under'
                     }]
+                }]
+            },{
+                xtype : 'toolbar',
+                hideBorders: true,
+                items :  [{
+                    xtype : 'checkbox',
+                    name : 'clear_cache',
+                    id : 'clear_cache',
+                    boxLabel : 'Refresh cache before page load'
+                },{
+                    xtype : 'tbspacer',
+                    width : '20'
+                },{
+                    xtype : 'button',
+                    name : 'profile',
+                    text : 'Profile Page',
+                    handler : this.sendRequest
+                }]
+            },{
+                xtype : 'toolbar',
+                hideBorders: true,
+                items :  [{
+                    xtype : 'label',
+                    html : 'Total parsing time <b id="total_parsing">0</b> seconds'
+                },{
+                    xtype : 'tbspacer',
+                    width : '20'
+                },{
+                    xtype : 'label',
+                    html : 'Total query time <b id="total_query">0</b> seconds'
+                },{
+                    xtype : 'tbspacer',
+                    width : '20'
+                },{
+                    xtype : 'label',
+                    html : 'Total cache time <b id="total_cache">0</b> seconds'
                 }]
             }]
 
