@@ -146,8 +146,7 @@ xBug.panel.Profiler = function(config) {
                     ,msgTarget: 'under'
                 },
                 items : [{
-                    columnWidth: 0.45
-                    ,defaults: { msgTarget: 'under' }
+                    defaults: { msgTarget: 'under' }
                     ,items : [{
                         xtype: 'label'
                         ,forId: 'domain'
@@ -156,7 +155,7 @@ xBug.panel.Profiler = function(config) {
 
                     },{
                         xtype : 'textfield',
-                        width : '80%',
+                        width : '300px',
                         fieldLabel : 'Domain Name',
                         id : 'domain',
                         description : 'Domain name to be tested, defaults to site_url. Always end domain with /'
@@ -176,7 +175,7 @@ xBug.panel.Profiler = function(config) {
                         xtype : 'textfield',
                         fieldLabel : 'URI or resource id',
                         name : 'resource',
-                        width : '80%',
+                        width : '300px',
                         id : 'url',
                         description : 'Resource ID or URI from site without domain'
                     },{
@@ -187,7 +186,6 @@ xBug.panel.Profiler = function(config) {
 
                     }]
                 },{
-                    columnwidth: 0.45,
                     items :[{
                         xtype: 'label'
                         ,forId: 'parameters'
@@ -198,7 +196,7 @@ xBug.panel.Profiler = function(config) {
                         xtype : 'textfield',
                         fieldLabel : 'URL parameters',
                         name : 'url-params',
-                        width : '80%',
+                        width : '300px',
                         id : 'parameters',
                         description : 'GET parameters in format &somevar=1&othervar=2',
                         allowDrop : false
@@ -219,7 +217,7 @@ xBug.panel.Profiler = function(config) {
                         xtype : 'textfield',
                         fieldLabel : 'POST parameters',
                         name : 'post-params',
-                        width : '80%',
+                        width : '300px',
                         id : 'post-parameters',
                         description : 'POST parameters in format &somevar=1&othervar=2',
                         allowDrop : false
@@ -238,7 +236,7 @@ xBug.panel.Profiler = function(config) {
                         xtype : 'textfield',
                         fieldLabel : 'COOKIE parameters',
                         name : 'cookie-params',
-                        width : '80%',
+                        width : '300px',
                         id : 'cookie-parameters',
                         description : 'COOKIE parameters in format somevar=1;othervar=2',
                         allowDrop : false
