@@ -1,5 +1,9 @@
 Changelog for xBug.
 
+xBug 0.8.2-pl
+==============
+- On uninstall, remove extension package
+
 xBug 0.8.0-beta
 ==============
 - Cache hit / miss logging and times
