@@ -29,7 +29,6 @@ xBug.stores.Parser =  new Ext.data.GroupingStore({
                 cache : store.reader.jsonData.cache
             });
             var total_cache = Ext.get('total_cache');
-            console.log(store.reader.jsonData.totals);
             total_cache.update(store.reader.jsonData.totals.cache);
 
             var total_query = Ext.get('total_query');
@@ -39,7 +38,7 @@ xBug.stores.Parser =  new Ext.data.GroupingStore({
             total_parsing.update(store.reader.jsonData.totals.parser);
 		},
         'exception' : function(misc) {
-			console.log('exception');
+			console.log('Exception when loading profile data from server');
 
         }
     }
