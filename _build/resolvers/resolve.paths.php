@@ -46,10 +46,6 @@ if ($object->xpdo) {
         case xPDOTransport::ACTION_UPGRADE:
             $modx =& $object->xpdo;
 
-            /* setup paths */
-            createSetting($modx,'core_path',$modx->getOption('core_path').'components/xbug/');
-            createSetting($modx,'assets_path',$modx->getOption('assets_path').'components/xbug/');
-
             /* setup urls */
             createSetting($modx,'assets_url',$modx->getOption('assets_url').'components/xbug/');
             createSetting($modx,'xbug_auth_key',md5(time()));
