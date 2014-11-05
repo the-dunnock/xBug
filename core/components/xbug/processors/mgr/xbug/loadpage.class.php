@@ -19,9 +19,12 @@ class xBugLoadPageProcessor extends modProcessor {
             $startParam = '&';
         }
 
-        $post = trim($this->getProperty('post', ''),"' ");
-        $get = trim($this->getProperty('get', ''),"' ");
-        $cookie = trim($this->getProperty('cookie', ''),"' ");
+        $post = $this->getProperty('post', '');
+        $get = $this->getProperty('get', '');
+        $cookie = implode(';', array_merge(explode(';', $this->getProperty('cookie', '')), array(
+            'xbug=' . $this->modx->getOption('xbug.xbug_auth_key'),
+            'clear_cache=' . $this->getProperty('clear_cache'),
+        )));
 
         $field_array= array(
             'Accept' => 'HTTP_ACCEPT',
@@ -34,7 +37,7 @@ class xBugLoadPageProcessor extends modProcessor {
             'User-Agent' => 'HTTP_USER_AGENT'
         );
 
-        $url = $domain . $uri . $startParam."xbug=".$this->modx->getOption('xbug.xbug_auth_key').$get."&clear_cache=" . $this->getProperty('clear_cache');
+        $url = $domain . $uri . $startParam . ltrim($get, '&');
         $curl_request_headers=array();
         foreach ($field_array as $key => $value) {
             if(isset($_SERVER["$value"])) {
@@ -52,7 +55,7 @@ class xBugLoadPageProcessor extends modProcessor {
         curl_setopt($curl_handle, CURLOPT_HEADER, 1);
         curl_setopt($curl_handle, CURLOPT_COOKIE, $cookie);
         curl_setopt($curl_handle, CURLOPT_POST, $postCount);
-        curl_setopt($curl_handle, CURLOPT_POSTFIELDS, ltrim($post, "&"));
+        curl_setopt($curl_handle, CURLOPT_POSTFIELDS, ltrim($post, '&'));
         curl_setopt($curl_handle, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($curl_handle, CURLOPT_HTTPHEADER, $curl_request_headers);
         curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
