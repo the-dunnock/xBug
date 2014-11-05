@@ -13,6 +13,23 @@ class XbugProfile extends modProcessor {
         $profiles = array();
 		$profiler = $this->xbug->loadProfiler();
 		$profiles = $profiler->readLog();
+        $totals = array(
+           'parser' => 0,
+           'profiles' => 0,
+           'cache' => 0
+        );
+        foreach ($profiles['parser'] as $row) {
+            $totals['parser'] = ($row['processTime'] + $totals['parser']);
+        }
+        foreach ($profiles['profiles'] as $row) {
+            $totals['profiles'] = ($row['duration'] + $totals['profiles']);
+        }
+        foreach ($profiles['cache'] as $row) {
+            $totals['cache'] = ($row['processTime'] + $totals['cache']);
+        }
+        $profiles = array_merge($profiles, array(
+            'totals' => $totals
+        ));
 		return $this->outputArray($profiles);
     }
 	
