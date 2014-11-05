@@ -43,12 +43,12 @@ class xBug {
             'processorsPath' => $corePath.'processors/',
             'templatesPath' => $corePath.'templates/',
         ),$config);
-        if (isset($_GET['xbug']) && $_GET['xbug'] == $modx->getOption('xbug.xbug_auth_key')) {
+        if (isset($_COOKIE['xbug']) && $_COOKIE['xbug'] == $modx->getOption('xbug.xbug_auth_key')) {
             $this->loadProfiler();
             $this->profiler->enableCacheManager();
             $this->profiler->forceParser();
             $this->profiler->enablePlugins();
-            if (isset($_GET['clear_cache']) && $_GET['clear_cache'] == 1) {
+            if (isset($_COOKIE['clear_cache']) && $_COOKIE['clear_cache'] == 1) {
                 $this->_clearMODXCache();
             }
 
