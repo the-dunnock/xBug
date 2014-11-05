@@ -331,9 +331,9 @@ Ext.extend(xBug.panel.Profiler, MODx.FormPanel, {
         var clear_cache = Ext.getCmp('clear_cache').getValue() ? 1 : 0;
         var domain = Ext.getCmp('domain').getValue();
 
-        var getvars = "'" + Ext.getCmp('parameters').getValue() + "'";
-        var postvars = "'" + Ext.getCmp('post-parameters').getValue() + "'";
-        var cookievars = "'" + Ext.getCmp('cookie-parameters').getValue() + "'";
+        var getvars = encodeURIComponent(Ext.getCmp('parameters').getValue());
+        var postvars = encodeURIComponent(Ext.getCmp('post-parameters').getValue());
+        var cookievars = encodeURIComponent(Ext.getCmp('cookie-parameters').getValue());
 
         var id = url;
         var pat = new RegExp(/\[\[\~[0-9]*\]\]/);
